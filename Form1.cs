@@ -21,7 +21,7 @@ using Atalasoft.Ocr.GlyphReader;
 using Atalasoft.Ocr.Tesseract;
 using Atalasoft.Imaging.Codec;
 using Atalasoft.Imaging.Codec.Pdf;
-using Atalasoft.Ocr.Abbyy;
+using Atalasoft.Ocr.OmniPage;
 
 namespace SimpleOCR
 {
@@ -35,15 +35,15 @@ namespace SimpleOCR
 		private bool _validLicense;
 		private static string _tempDir	 = System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Atalasoft\Demos\OCR_temp";
 		private static string _tempFile	 = _tempDir + @"\temp";
-		private static string _outputFile = _tempDir + @"\output.txt";
+        private static readonly string DefaultOutputFile = _tempDir + @"\output.txt";
+        private static string _outputFile = DefaultOutputFile;
 		private string _selectedMimeType = "";
         private bool _fileLoaded = false;
 
         private OcrEngine _engine;          // currently selected engine
-        private OcrEngine _tesseract;       // Tesseract ditto
         private OcrEngine _tesseract3;      // This is the new (as of 10.4.1) Tesseract 3 engine
         private OcrEngine _glyphReader;     // GlyphReader likewise
-        private OcrEngine _abbyy;           // Abbyy
+        private OcrEngine _omniPage;        // OmniPage OCR engine
 
 		private bool _saveToFile = false;
 
@@ -67,9 +67,8 @@ namespace SimpleOCR
 		private System.Windows.Forms.MenuItem menuItem1;
 		private System.Windows.Forms.MenuItem menuGlyphReaderEngine;
 		private System.Windows.Forms.Splitter splitter1;
-        private System.Windows.Forms.MenuItem menuTesseract;
         private MenuItem menuLanguage;
-        private MenuItem menuAbbyy;
+        private MenuItem menuOmniPage;
         private MenuItem menuTesseract3;
         private IContainer components;
 
@@ -120,8 +119,7 @@ namespace SimpleOCR
             this.menuActionTranslate = new System.Windows.Forms.MenuItem();
             this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.menuGlyphReaderEngine = new System.Windows.Forms.MenuItem();
-            this.menuAbbyy = new System.Windows.Forms.MenuItem();
-            this.menuTesseract = new System.Windows.Forms.MenuItem();
+            this.menuOmniPage = new System.Windows.Forms.MenuItem();
             this.menuTesseract3 = new System.Windows.Forms.MenuItem();
             this.menuLanguage = new System.Windows.Forms.MenuItem();
             this.menuHelp = new System.Windows.Forms.MenuItem();
@@ -214,8 +212,7 @@ namespace SimpleOCR
             this.menuItem1.Index = 2;
             this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuGlyphReaderEngine,
-            this.menuAbbyy,
-            this.menuTesseract,
+            this.menuOmniPage,
             this.menuTesseract3});
             this.menuItem1.Text = "Engine";
             // 
@@ -225,21 +222,15 @@ namespace SimpleOCR
             this.menuGlyphReaderEngine.Text = "GlyphReader";
             this.menuGlyphReaderEngine.Click += new System.EventHandler(this.menuGlyphReaderEngine_Click);
             // 
-            // menuAbbyy
+            // menuOmniPage
             // 
-            this.menuAbbyy.Index = 1;
-            this.menuAbbyy.Text = "Abbyy";
-            this.menuAbbyy.Click += new System.EventHandler(this.menuAbbyy_Click);
-            // 
-            // menuTesseract
-            // 
-            this.menuTesseract.Index = 2;
-            this.menuTesseract.Text = "Tesseract 2";
-            this.menuTesseract.Click += new System.EventHandler(this.menuTesseract_Click);
+            this.menuOmniPage.Index = 1;
+            this.menuOmniPage.Text = "OmniPage";
+            this.menuOmniPage.Click += new System.EventHandler(this.menuOmniPage_Click);
             // 
             // menuTesseract3
             // 
-            this.menuTesseract3.Index = 3;
+            this.menuTesseract3.Index = 2;
             this.menuTesseract3.Text = "Tesseract 3";
             this.menuTesseract3.Click += new System.EventHandler(this.menuTesseract3_Click);
             // 
@@ -263,9 +254,9 @@ namespace SimpleOCR
             // 
             // workspaceViewer1
             // 
-            this.workspaceViewer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.workspaceViewer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.workspaceViewer1.AntialiasDisplay = Atalasoft.Imaging.WinControls.AntialiasDisplayMode.ReductionOnly;
             this.workspaceViewer1.AutoZoom = Atalasoft.Imaging.WinControls.AutoZoomMode.BestFitShrinkOnly;
             this.workspaceViewer1.DisplayProfile = null;
@@ -282,8 +273,8 @@ namespace SimpleOCR
             // 
             // progressBar1
             // 
-            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar1.Location = new System.Drawing.Point(390, 622);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(629, 17);
@@ -310,8 +301,8 @@ namespace SimpleOCR
             this.Menu = this.mainMenu1;
             this.Name = "Form1";
             this.Text = "Atalasoft Simple OCR Demo";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Closing += new System.ComponentModel.CancelEventHandler(this.Form1_Closing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -340,7 +331,7 @@ namespace SimpleOCR
 				this.OnMimeClick = new System.EventHandler(this.OnMimeClick1);
 
 				// Pick a licensed engine to start with.
-                SelectTesseractEngine();
+                SelectOmniPageEngine();
 			}
 		}
 
@@ -357,8 +348,7 @@ namespace SimpleOCR
         private void UpdateMenusForEngine()
         {
             menuGlyphReaderEngine.Checked = (_engine == _glyphReader);
-            menuAbbyy.Checked = (_engine == _abbyy);
-            menuTesseract.Checked = (_engine == _tesseract);
+            menuOmniPage.Checked = (_engine == _omniPage);
             menuTesseract3.Checked = (_engine == _tesseract3);
             // Fill in the menu of supported recognition languages/cultures:
             CreateLanguageMenu();
@@ -527,7 +517,7 @@ namespace SimpleOCR
                     this.workspaceViewer1.Image = new AtalaImage(_tempFile);
                     this._fileLoaded = true;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     this._fileLoaded = false;
                     MessageBox.Show("Unable to open requested image... Unsupported Image Type.");
@@ -606,7 +596,32 @@ namespace SimpleOCR
 						break;
 					case "application/vnd.lotus-1-2-3": mimeFilter += s +" (.txt)|*.txt|";
 						break;
-					default: mimeFilter += s +" (.???)|*.*|";
+                    case "application/epub+zip":
+                        mimeFilter += s + " (.epub)|*.epub|";
+                        break;
+                    case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                        mimeFilter += s + " (.docx)|*.docx|";
+                        break;
+                    case "application/vnd.ms-excel":
+                    case "application/excel":
+                        mimeFilter += s + " (.xls)|*.xls|";
+                        break;
+                    case "application/vnd.ms-powerpoint":
+                        mimeFilter += s + " (.ppt)|*.ppt|";
+                        break;
+                    case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+                        mimeFilter += s + " (.pptx)|*.pptx|";
+                        break;
+                    case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+                        mimeFilter += s + " (.xlsx)|*.xlsx|";
+                        break;
+                    case "text/xml":
+                        mimeFilter += s + " (.xml)|*.xml|";
+                        break;
+                    case "application/vnd.ms-xpsdocument":
+                        mimeFilter += s + " (.xps)|*.xps|";
+                        break;
+                    default: mimeFilter += s +" (.???)|*.*|";
 						break;
 				}
 			}
@@ -630,20 +645,6 @@ namespace SimpleOCR
             }
         }
 
-        private void SelectTesseractEngine()
-		{
-            if (_tesseract == null)
-            {
-                _tesseract = new Atalasoft.Ocr.Tesseract.TesseractEngine();
-                InitializeEngine(_tesseract);
-            }
-            if (_tesseract != null)
-            {
-                _engine = _tesseract;
-                UpdateMenusForEngine();
-            }
-        }
-
         /// <summary>
         /// This is the new (as of v10.4.1) Tesseract3 engine
         /// It is distinct from Tesseract 2
@@ -662,32 +663,32 @@ namespace SimpleOCR
             }
         }
 
-        private void SelectAbbyyEngine()
+        private void SelectOmniPageEngine()
         {
-            if (_abbyy == null)
+            if (_omniPage == null)
             {
                 try
                 {
-                    AbbyyLoader loader = new AbbyyLoader(@"C:\Program Files (x86)\Atalasoft\DotImage 10.7\bin\OCRResources\ABBYY");
+                    OmniPageLoader loader = new OmniPageLoader();
                     if (loader != null)
                     {
-                        // try to create an Abbyy engine
-                        _abbyy = new AbbyyEngine();
-                        InitializeEngine(_abbyy);
+                        // try to create an OmniPage engine
+                        _omniPage = new OmniPageEngine();
+                        InitializeEngine(_omniPage);
                     }
                 }
                 catch (AtalasoftLicenseException ex)
                 {
-                    LicenseCheckFailure("Using Abbyy OCR requires both an Atalasoft DotImage OCR License.", ex.Message);
+                    LicenseCheckFailure("Using OmniPage OCR requires both an Atalasoft DotImage OCR License.", ex.Message);
                 }
                 catch (Exception err)
                 {
                     InfoBox(err.Message);
                 }
             }
-            if (_abbyy != null)
+            if (_omniPage != null)
             {
-                _engine = _abbyy;
+                _engine = _omniPage;
                 UpdateMenusForEngine();
             }
         }
@@ -751,6 +752,7 @@ namespace SimpleOCR
                 try
                 {
                     this.textBox1.Clear();
+                    _outputFile = DefaultOutputFile;
 
                     // choose output file location, either a temp directory, or a user selected spot.
                     if (_saveToFile) _outputFile = GetSaveFileName();
@@ -786,7 +788,17 @@ namespace SimpleOCR
                     }
                     else
                     {
-                        System.Diagnostics.Process.Start(_outputFile);
+                        try
+                        {
+                            System.Diagnostics.Process.Start(_outputFile);
+                        }
+                        catch (Exception ex)
+                        {
+                            if (File.Exists(_outputFile))
+                                InfoBox("File \"" + _outputFile + "\" is created.");
+                            else
+                                InfoBox(ex.ToString());
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -795,7 +807,9 @@ namespace SimpleOCR
                     if ((ex is AtalasoftLicenseException) && (_selectedMimeType == "application/pdf"))
                         LicenseCheckFailure("To generate PDF output, an Atalasoft PDF Translator license is required.", ex.Message);
                     else
+                    {
                         InfoBox(ex.ToString());
+                    }
                 }
                 finally
                 {
@@ -848,7 +862,7 @@ namespace SimpleOCR
 			AtalaDemos.AboutBox.About aboutBox = new AtalaDemos.AboutBox.About("About Atalasoft Simple OCR Demo",
 				"DotImage Simple OCR Demo");
 			aboutBox.Description = @"Demonstrates the basics of OCR.  This 'no frills' example demonstrates translating an image to a text file or searchable PDF.  The output text style (or mime type) can be formatted as any of the supported types.  This is a great place to get started with DotImage OCR.  "+
-                "Requires evaluation or purchased licenses of DotImage Document Imaging, and at least one of these OCR Add-ons: GlyphReader, Abbyy or Tesseract.";
+                "Requires evaluation or purchased licenses of DotImage Document Imaging, and at least one of these OCR Add-ons: GlyphReader, OmniPage or Tesseract.";
 			aboutBox.ShowDialog();
 		}
 
@@ -883,19 +897,6 @@ namespace SimpleOCR
 			progressBar1.Width = workspaceViewer1.Width;
 		}
 
-		private void menuTesseract_Click(object sender, System.EventArgs e)
-		{
-			try
-			{
-                SelectTesseractEngine();
-			}
-			catch(AtalasoftLicenseException ex)
-			{
-                LicenseCheckFailure("Using Tesseract OCR requires a DotImage OCR License.", ex.Message);
-			}
-
-		}
-
         private void menuTesseract3_Click(object sender, EventArgs e)
         {
             try
@@ -910,17 +911,13 @@ namespace SimpleOCR
 
 
 
-        private void menuAbbyy_Click(object sender, EventArgs e)
+        private void menuOmniPage_Click(object sender, EventArgs e)
         {
-            SelectAbbyyEngine();
+            SelectOmniPageEngine();
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (_tesseract != null)
-            {
-                _tesseract.ShutDown();
-            }
             if (_tesseract3 != null)
             {
                 _tesseract3.ShutDown();
@@ -929,9 +926,9 @@ namespace SimpleOCR
             {
                 _glyphReader.ShutDown();
             }
-            if (_abbyy != null)
+            if (_omniPage != null)
             {
-                _abbyy.ShutDown();
+                _omniPage.ShutDown();
             }
         }
 

@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Windows.Forms;
 using Atalasoft.Imaging;
 using Atalasoft.Imaging.Codec;
-using Atalasoft.Imaging.Codec.CadCam;
 using Atalasoft.Imaging.Codec.Jpeg2000;
 using Atalasoft.Imaging.Codec.Dicom;
 using Atalasoft.Imaging.Codec.Jbig2;
@@ -73,9 +72,6 @@ namespace AtalaDemos
             _decoderImageFormats.Add(new ImageFormatInformation(new PcdDecoder(), "Kodak (tm) PhotoCD (*.pcd)", "*.pcd"));
             _decoderImageFormats.Add(new ImageFormatInformation(new RawDecoder(), "RAW Images", "*.dcr;*.dng;*.eff;*.mrw;*.nef;*.orf;*.pef;*.raf;*.srf;*.x3f;*.crw;*.cr2;*.tif;*.ppm"));
 
-            try { _decoderImageFormats.Add(new ImageFormatInformation(new DwgDecoder(), "Cad/Cam (*.dwg *.dxf)", "*.dwg;*.dxf")); }
-            catch (AtalasoftLicenseException) { }
-
             try { _decoderImageFormats.Add(new ImageFormatInformation(new DicomDecoder(), "Dicom (*.dcm *.dce)", "*.dcm;*.dce")); }
             catch (AtalasoftLicenseException) { }
 
@@ -110,7 +106,7 @@ namespace AtalaDemos
             try { _encoderImageFormats.Add(new ImageFormatInformation(new Jb2Encoder(), "JBIG2 (*.jb2)", "*.jb2")); }
             catch (AtalasoftLicenseException) { }
 
-            try { _encoderImageFormats.Add(new ImageFormatInformation(new Jp2Encoder(), "JPEG2000 (*.jpf *.jp2, *.jpc *.j2c *.j2k)", "*.jpf;*.jp2;*.jpc;*.j2c;*.j2k")); }
+            try { _encoderImageFormats.Add(new ImageFormatInformation(new Jpeg2000Encoder(), "JPEG2000 (*.jpf *.jp2, *.jpc *.j2c *.j2k)", "*.jpf;*.jp2;*.jpc;*.j2c;*.j2k")); }
             catch (AtalasoftLicenseException) { }
 
             try { _encoderImageFormats.Add(new ImageFormatInformation(new PdfEncoder(), "PDF (*.pdf)", "*.pdf")); }
