@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using Atalasoft.Imaging;
 using Atalasoft.Imaging.Codec;
+using Atalasoft.Imaging.Codec.CadCam;
 using Atalasoft.Imaging.Codec.Jpeg2000;
 using Atalasoft.Imaging.Codec.Dicom;
 using Atalasoft.Imaging.Codec.Jbig2;
@@ -12,9 +13,9 @@ using Atalasoft.Imaging.Codec.Tiff;
 // In order to use the OfficeDecoder, you will need to
 // 1) reference Atalasoft.dotImage.Office.dll
 // 2) add the dlls from either
-//       C:\Program Files (x86)\Atalasoft\DotImage 10.7\bin\PerceptiveDocumentFilters\intel-32
+//       C:\Program Files (x86)\Atalasoft\DotImage 11.2\bin\PerceptiveDocumentFilters\intel-32
 //       or
-//       C:\Program Files (x86)\Atalasoft\DotImage 10.7\bin\PerceptiveDocumentFilters\intel-64
+//       C:\Program Files (x86)\Atalasoft\DotImage 11.2\bin\PerceptiveDocumentFilters\intel-64
 //   to the bin directory of this solution
 // 3) uncomment the using statement for Atalasoft.Imaging.Codec.Office beklow
 // 4) In the HelperMethods() method below, find the commented out try/catch entry related to OfficeDecoder and uncomment it
@@ -72,6 +73,9 @@ namespace AtalaDemos
             _decoderImageFormats.Add(new ImageFormatInformation(new PcdDecoder(), "Kodak (tm) PhotoCD (*.pcd)", "*.pcd"));
             _decoderImageFormats.Add(new ImageFormatInformation(new RawDecoder(), "RAW Images", "*.dcr;*.dng;*.eff;*.mrw;*.nef;*.orf;*.pef;*.raf;*.srf;*.x3f;*.crw;*.cr2;*.tif;*.ppm"));
 
+            try { _decoderImageFormats.Add(new ImageFormatInformation(new DwgDecoder(), "Cad/Cam (*.dwg *.dxf)", "*.dwg;*.dxf")); }
+            catch (AtalasoftLicenseException) { }
+
             try { _decoderImageFormats.Add(new ImageFormatInformation(new DicomDecoder(), "Dicom (*.dcm *.dce)", "*.dcm;*.dce")); }
             catch (AtalasoftLicenseException) { }
 
@@ -82,6 +86,9 @@ namespace AtalaDemos
             catch (AtalasoftLicenseException) { }
 
             try { _decoderImageFormats.Add(new ImageFormatInformation(new PdfDecoder() { Resolution = 200, RenderSettings = new RenderSettings() { AnnotationSettings = AnnotationRenderSettings.None } }, "PDF (*.pdf)", "*.pdf")); }
+            catch (AtalasoftLicenseException) { }
+
+            try { _decoderImageFormats.Add(new ImageFormatInformation(new HeifDecoder(), "HEIF/HEIC (*.heif *.heic)", "*.heif;*.heic;")); }
             catch (AtalasoftLicenseException) { }
 
             //// OfficeDecoer only exists in 10.7 and newer. Please see the instructions at the top of this file for enabling OfficeDecoder.. and uncomment the following:

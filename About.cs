@@ -120,8 +120,9 @@ namespace AtalaDemos.AboutBox
             this.downloadHelpLinkLabel.Size = new System.Drawing.Size(200, 16);
             this.downloadHelpLinkLabel.TabIndex = 4;
             this.downloadHelpLinkLabel.TabStop = true;
-            this.downloadHelpLinkLabel.Text = "Download DotImage Help Installer";
-            this.downloadHelpLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.downloadHelpInstallerLinkLabel_LinkClicked);
+            this.downloadHelpLinkLabel.Text = "DotImage Documentation";
+            this.downloadHelpLinkLabel.UseCompatibleTextRendering = true;
+            this.downloadHelpLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.apiReferenceLinkLabel_LinkClicked);
             // 
             // button1
             // 
@@ -152,7 +153,7 @@ namespace AtalaDemos.AboutBox
             this.downloadDotImageLinkLabel.TabIndex = 7;
             this.downloadDotImageLinkLabel.TabStop = true;
             this.downloadDotImageLinkLabel.Text = "Download the latest DotImage";
-            this.downloadDotImageLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.downloadDotImageLinkLabel_LinkClicked);
+            this.downloadDotImageLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.downloadLinkLabel_LinkClicked);
             // 
             // label4
             // 
@@ -160,7 +161,7 @@ namespace AtalaDemos.AboutBox
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(264, 23);
             this.label4.TabIndex = 8;
-            this.label4.Text = "Gold Support Members Only, Call (866) 568-0129";
+            this.label4.Text = "Sales / Support:  +1 781.743.2119";
             // 
             // pictureBox1
             // 
@@ -170,9 +171,9 @@ namespace AtalaDemos.AboutBox
             this.pictureBox1.Size = new System.Drawing.Size(264, 88);
             this.pictureBox1.TabIndex = 9;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.MouseLeave += new System.EventHandler(this.OnMouseLeave);
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             this.pictureBox1.MouseEnter += new System.EventHandler(this.OnMouseEnter);
+            this.pictureBox1.MouseLeave += new System.EventHandler(this.OnMouseLeave);
             // 
             // label5
             // 
@@ -243,25 +244,25 @@ namespace AtalaDemos.AboutBox
 			this.Dispose();
 		}
 
-        private void downloadDotImageLinkLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("www.atalasoft.com/products/download/dotimage");
-        }
-
-		private void downloadHelpInstallerLinkLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+		private void apiReferenceLinkLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
 		{
-            System.Diagnostics.Process.Start("www.atalasoft.com/support/dotimage/help/install");
-		}
+            System.Diagnostics.Process.Start("https://www.atalasoft.com/Support/APIs-Dev-Guides");
+        }
 
 		private void demoGalleryLinkLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
 		{
-            System.Diagnostics.Process.Start("www.atalasoft.com/Support/Sample-Applications");
-		}
+            System.Diagnostics.Process.Start("https://www.atalasoft.com/KB2/KB/50086/");
+        }
+
+        private void downloadLinkLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.atalasoft.com/BeginDownload");
+        }
 
 		private void pictureBox1_Click(object sender, System.EventArgs e)
 		{
-			System.Diagnostics.Process.Start("www.atalasoft.com");
-		}
+            System.Diagnostics.Process.Start("https://www.atalasoft.com");
+        }
 
 		private void OnMouseEnter(object sender, System.EventArgs e)
 		{
