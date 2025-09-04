@@ -33,6 +33,7 @@ namespace SimpleOCR
 
         const string APPTITLE = "Simple OCR Demo";
 		private bool _validLicense;
+        private static string _ocrResourcesDir = @"C:\Program Files (x86)\Atalasoft\DotImage 11.6\bin\OcrResources";
 		private static string _tempDir	 = System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Atalasoft\Demos\OCR_temp";
 		private static string _tempFile	 = _tempDir + @"\temp";
 		private static string _outputFile = _tempDir + @"\output.txt";
@@ -40,7 +41,6 @@ namespace SimpleOCR
         private bool _fileLoaded = false;
 
         private OcrEngine _engine;          // currently selected engine
-        private OcrEngine _tesseract3;      // This is the new (as of 10.4.1) Tesseract 3 engine
         private OcrEngine _tesseract5;
         private OcrEngine _glyphReader;     // GlyphReader likewise
         //private OcrEngine _abbyy;           // Abbyy
@@ -70,7 +70,6 @@ namespace SimpleOCR
         private System.Windows.Forms.Splitter splitter1;
         private MenuItem menuLanguage;
         private MenuItem menuOmni;
-        private MenuItem menuTesseract3;
         private MenuItem menuTesseract5;
         private IContainer components;
 
@@ -122,7 +121,7 @@ namespace SimpleOCR
             this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.menuGlyphReaderEngine = new System.Windows.Forms.MenuItem();
             this.menuOmni = new System.Windows.Forms.MenuItem();
-            this.menuTesseract3 = new System.Windows.Forms.MenuItem();
+            this.menuTesseract5 = new System.Windows.Forms.MenuItem();
             this.menuLanguage = new System.Windows.Forms.MenuItem();
             this.menuHelp = new System.Windows.Forms.MenuItem();
             this.menuHelpAbout = new System.Windows.Forms.MenuItem();
@@ -130,7 +129,6 @@ namespace SimpleOCR
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.menuTesseract5 = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
             // 
             // textBox1
@@ -140,7 +138,7 @@ namespace SimpleOCR
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(374, 649);
+            this.textBox1.Size = new System.Drawing.Size(449, 649);
             this.textBox1.TabIndex = 2;
             // 
             // mainMenu1
@@ -216,7 +214,6 @@ namespace SimpleOCR
             this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuGlyphReaderEngine,
             this.menuOmni,
-            this.menuTesseract3,
             this.menuTesseract5});
             this.menuItem1.Text = "&Engine";
             // 
@@ -232,11 +229,11 @@ namespace SimpleOCR
             this.menuOmni.Text = "&OmniPage";
             this.menuOmni.Click += new System.EventHandler(this.menuOmni_Click);
             // 
-            // menuTesseract3
+            // menuTesseract5
             // 
-            this.menuTesseract3.Index = 2;
-            this.menuTesseract3.Text = "Tesseract &3";
-            this.menuTesseract3.Click += new System.EventHandler(this.menuTesseract3_Click);
+            this.menuTesseract5.Index = 2;
+            this.menuTesseract5.Text = "Tesseract &5";
+            this.menuTesseract5.Click += new System.EventHandler(this.menuTesseract5_Click);
             // 
             // menuLanguage
             // 
@@ -264,14 +261,14 @@ namespace SimpleOCR
             this.workspaceViewer1.AntialiasDisplay = Atalasoft.Imaging.WinControls.AntialiasDisplayMode.ReductionOnly;
             this.workspaceViewer1.AutoZoom = Atalasoft.Imaging.WinControls.AutoZoomMode.BestFitShrinkOnly;
             this.workspaceViewer1.DisplayProfile = null;
-            this.workspaceViewer1.Location = new System.Drawing.Point(390, 0);
+            this.workspaceViewer1.Location = new System.Drawing.Point(468, 0);
             this.workspaceViewer1.Magnifier.BackColor = System.Drawing.Color.White;
             this.workspaceViewer1.Magnifier.BorderColor = System.Drawing.Color.Black;
             this.workspaceViewer1.Magnifier.Size = new System.Drawing.Size(100, 100);
             this.workspaceViewer1.Name = "workspaceViewer1";
             this.workspaceViewer1.OutputProfile = null;
             this.workspaceViewer1.Selection = null;
-            this.workspaceViewer1.Size = new System.Drawing.Size(629, 616);
+            this.workspaceViewer1.Size = new System.Drawing.Size(550, 611);
             this.workspaceViewer1.TabIndex = 3;
             this.workspaceViewer1.Text = "workspaceViewer1";
             // 
@@ -279,30 +276,24 @@ namespace SimpleOCR
             // 
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(390, 622);
+            this.progressBar1.Location = new System.Drawing.Point(468, 618);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(629, 17);
+            this.progressBar1.Size = new System.Drawing.Size(550, 19);
             this.progressBar1.TabIndex = 4;
             this.progressBar1.Visible = false;
             // 
             // splitter1
             // 
-            this.splitter1.Location = new System.Drawing.Point(374, 0);
+            this.splitter1.Location = new System.Drawing.Point(449, 0);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(10, 649);
+            this.splitter1.Size = new System.Drawing.Size(12, 649);
             this.splitter1.TabIndex = 5;
             this.splitter1.TabStop = false;
             this.splitter1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitter1_SplitterMoved);
             // 
-            // menuTesseract5
-            // 
-            this.menuTesseract5.Index = 3;
-            this.menuTesseract5.Text = "Tesseract &5";
-            this.menuTesseract5.Click += new System.EventHandler(this.menuTesseract5_Click);
-            // 
             // Form1
             // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+            this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
             this.ClientSize = new System.Drawing.Size(1027, 649);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.progressBar1);
@@ -359,7 +350,6 @@ namespace SimpleOCR
         {
             menuGlyphReaderEngine.Checked = (_engine == _glyphReader);
             menuOmni.Checked = (_engine == _omniPage);
-            menuTesseract3.Checked = (_engine == _tesseract3);
             menuTesseract5.Checked = (_engine == _tesseract5);
             // Fill in the menu of supported recognition languages/cultures:
             CreateLanguageMenu();
@@ -632,38 +622,35 @@ namespace SimpleOCR
         }
 
 
-        /// <summary>
-        /// This is the new (as of v10.4.1) Tesseract3 engine
-        /// It is distinct from Tesseract 2
-        /// </summary>
         private void SelectTesseract5Engine()
         {
-            if (_tesseract5 == null)
+            string tesseractOcrResourcesDirectory = Path.Combine(_ocrResourcesDir, @"Tesseract");
+
+            try
             {
-                _tesseract5 = new Tesseract5Engine();
-                InitializeEngine(_tesseract5);
+                if (!Directory.Exists(tesseractOcrResourcesDirectory))
+                {
+                    MessageBox.Show("You need to ensure you have downloaded the Tesseract OCR Resources to the OCR Resource directory");
+                }
+
+                if (_tesseract5 == null)
+                {
+                    _tesseract5 = new Tesseract5Engine(_ocrResourcesDir);
+                    InitializeEngine(_tesseract5);
+                }
             }
+            catch (AtalasoftLicenseException ex)
+            {
+                LicenseCheckFailure("Using Tesseract OCR requires both an Atalasoft DotImage OCR License.", ex.Message);
+            }
+            catch (Exception err)
+            {
+                InfoBox(err.Message);
+            }
+
             if (_tesseract5 != null)
             {
                 _engine = _tesseract5;
-                UpdateMenusForEngine();
-            }
-        }
-
-        /// <summary>
-        /// This is the new (as of v10.4.1) Tesseract3 engine
-        /// It is distinct from Tesseract 2
-        /// </summary>
-        private void SelectTesseract3Engine()
-        {
-            if (_tesseract3 == null)
-            {
-                _tesseract3 = new Tesseract3Engine();
-                InitializeEngine(_tesseract3);
-            }
-            if (_tesseract3 != null)
-            {
-                _engine = _tesseract3;
                 UpdateMenusForEngine();
             }
         }
@@ -678,10 +665,10 @@ namespace SimpleOCR
                     // you will need to ensure when using OmniPageEngine in yhour application that you 
                     // specify the resources directory wher the AbbyyREsources live
                     // Please see https://www.atalasoft.com/KB2/KB/50396/INFO-OmniPageEngine-Overview
-                    string omniPageOcrResourcesDirectory = @"C:\Program Files (x86)\Atalasoft\DotImage 11.3\bin\OCRResources\OmniPage";
+                    string omniPageOcrResourcesDirectory = Path.Combine(_ocrResourcesDir,"OmniPage");
                     if (!Directory.Exists(omniPageOcrResourcesDirectory))
                     {
-                        MessageBox.Show("You need to ensure you ahve downloaded the OmniPageEngine OCR Resources to the abbyy resource directory\r\nsee https://www.atalasoft.com/KB2/KB/50396/INFO-OmniPageEngine-Overview");
+                        MessageBox.Show("You need to ensure you have downloaded the OmniPageEngine OCR Resources to the abbyy resource directory\r\nsee https://www.atalasoft.com/KB2/KB/50396/INFO-OmniPageEngine-Overview");
                     }
                     //AbbyyLoader loader = new AbbyyLoader(abbyyOcrResourcesDirectory);
                     OmniPageLoader loader = new OmniPageLoader(omniPageOcrResourcesDirectory);
@@ -708,6 +695,7 @@ namespace SimpleOCR
             }
         }
 
+     
         private void InitializeEngine(OcrEngine eng)
 		{
             eng.Initialize();
@@ -900,18 +888,6 @@ namespace SimpleOCR
 		}
 
 
-        private void menuTesseract3_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                SelectTesseract3Engine();
-            }
-            catch (AtalasoftLicenseException ex)
-            {
-                LicenseCheckFailure("Using Tesseract OCR requires a DotImage OCR License.", ex.Message);
-            }
-        }
-
         private void menuTesseract5_Click(object sender, EventArgs e)
         {
             try
@@ -932,10 +908,6 @@ namespace SimpleOCR
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (_tesseract3 != null)
-            {
-                _tesseract3.ShutDown();
-            }
             if (_glyphReader != null)
             {
                 _glyphReader.ShutDown();

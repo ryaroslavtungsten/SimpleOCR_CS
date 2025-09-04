@@ -72,86 +72,85 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
+  <PropertyGroup>
+    <SdkPath>C:\Program Files (x86)\Atalasoft\DotImage 11.6\bin\4.6.2\x64</SdkPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Atalasoft.dotImage">
       <Name>Atalasoft.dotImage</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.dotImage.AdvancedDocClean">
       <Name>Atalasoft.dotImage.AdvancedDocClean</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.AdvancedDocClean.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.AdvancedDocClean.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.dotImage.Dicom">
       <Name>Atalasoft.dotImage.Dicom</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.Dicom.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.Dicom.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.dotImage.Dwg">
       <Name>Atalasoft.dotImage.Dwg</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.Dwg.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.Dwg.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.dotImage.Heif">
       <Name>Atalasoft.dotImage.Heif</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.Heif.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.Heif.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.dotImage.Jbig2">
       <Name>Atalasoft.dotImage.Jbig2</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.Jbig2.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.Jbig2.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.dotImage.Jpeg2000">
       <Name>Atalasoft.dotImage.Jpeg2000</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.Jpeg2000.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.Jpeg2000.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.dotImage.Lib">
       <Name>Atalasoft.dotImage.Lib</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.Lib.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.Lib.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.dotImage.Ocr">
       <Name>Atalasoft.dotImage.Ocr</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.Ocr.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.Ocr.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.dotImage.Ocr.GlyphReader">
       <Name>Atalasoft.dotImage.Ocr.GlyphReader</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.Ocr.GlyphReader.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.Ocr.GlyphReader.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.dotImage.Ocr.OmniPage">
       <Name>Atalasoft.dotImage.Ocr.OmniPage</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.Ocr.OmniPage.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.Ocr.OmniPage.dll</HintPath>
     </Reference>
-    <Reference Include="Atalasoft.dotImage.Ocr.Tesseract3">
-      <Name>Atalasoft.dotImage.Ocr.Tesseract3</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.Ocr.Tesseract3.dll</HintPath>
-    </Reference>
-    <Reference Include="Atalasoft.dotImage.Ocr.Tesseract5, Version=11.4.0.377, Culture=neutral, PublicKeyToken=2b02b46f7326f73b, processorArchitecture=x86">
+    <Reference Include="Atalasoft.dotImage.Ocr.Tesseract5">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.Ocr.Tesseract5.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.Ocr.Tesseract5.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.dotImage.Pdf">
       <Name>Atalasoft.dotImage.Pdf</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.Pdf.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.Pdf.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.dotImage.PdfDoc.Bridge">
       <Name>Atalasoft.dotImage.PdfDoc.Bridge</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.PdfDoc.Bridge.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.PdfDoc.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.dotImage.PdfReader">
       <Name>Atalasoft.dotImage.PdfReader</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.PdfReader.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.PdfReader.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.dotImage.Raw">
       <Name>Atalasoft.dotImage.Raw</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.Raw.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.Raw.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.dotImage.WinControls">
       <Name>Atalasoft.dotImage.WinControls</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.dotImage.WinControls.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.dotImage.WinControls.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.PdfDoc">
       <Name>Atalasoft.PdfDoc</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.PdfDoc.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.PdfDoc.dll</HintPath>
     </Reference>
     <Reference Include="Atalasoft.Shared">
       <Name>Atalasoft.Shared</Name>
-      <HintPath>C:\Program Files (x86)\Atalasoft\DotImage 11.5\bin\4.6.2\x64\Atalasoft.Shared.dll</HintPath>
+      <HintPath>$(SdkPath)\Atalasoft.Shared.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
